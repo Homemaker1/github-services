@@ -29,7 +29,7 @@ service :fog_bugz do |data, payload|
         fb_url = "#{data['cvssubmit_url']}?ixBug=#{fb_bugzid}&sRepo=#{fb_repo}&sFile=#{fb_file}&sPrev=#{fb_r1}&sNew=#{fb_r2}"
         url = URI.parse(fb_url)
         conn = Net::HTTP.new(url.host, url.port)
-        conn.use_ssl = true
+        conn.use_ssl = url.scheme == "https"
         conn.verify_mode = OpenSSL::SSL::VERIFY_NONE
         conn.start do |http| 
           http.get(url.path + '?' + url.query)
